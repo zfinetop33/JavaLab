@@ -1,0 +1,37 @@
+1.数据量 110万
+2.索引顺序：
+alter table lab_order add index idx_order_all  (`user_id`,`order_no`,`goods_id`)
+3.执行
+A.user_id,order_no,goods_id  索引命中：3  执行时间：0.023
+ explain
+ select  order_no,user_id,goods_id from lab_order where
+ user_id='1008'
+ and  order_no='c0d52dd5-d389-40ae-a1ae-6a117850f1ac'
+ and goods_id='1081'
+
+B.user_id,order_no  索引命中：2  执行时间：0.023
+ explain
+ select  order_no,user_id,goods_id from lab_order where
+ user_id='1008'
+ and  order_no='c0d52dd5-d389-40ae-a1ae-6a117850f1ac'
+
+C.user_id  索引命中：1  执行时间：0.039
+ explain
+ select  order_no,user_id,goods_id from lab_order where
+ user_id='1008'
+
+D.user_id  索引命中：0  执行时间：0.032
+ explain
+ select  order_no,user_id,goods_id from lab_order where
+ order_no='c0d52dd5-d389-40ae-a1ae-6a117850f1ac'
+ and goods_id='1081'
+
+E.goods_id  索引命中：0  执行时间：0.0333
+ explain
+ select  order_no,user_id,goods_id from lab_order where
+ goods_id='1081'
+
+结论：
+（1）只要走了索引，无论命中几个，执行效率都很高
+（2）如果查询字段都在组合索引范围内，也会从索引直接读取
+但是如果有非组合索引中的字段，就会全表扫描。
