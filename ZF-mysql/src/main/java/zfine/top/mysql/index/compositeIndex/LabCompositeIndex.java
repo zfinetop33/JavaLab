@@ -2,13 +2,8 @@ package zfine.top.mysql.index.compositeIndex;
 
 import com.mysql.cj.jdbc.PreparedStatement;
 import org.junit.Test;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
 import java.util.UUID;
 
 /**
@@ -27,17 +22,17 @@ public class LabCompositeIndex {
 
     @Test
     public void insertData(){
-        String INSERTSQL="insert into lab_order(order_no,user_id,goods_id,order_status) values(?,?,?,1)";
+        String MYSQL_DRIVER="com.mysql.cj.jdbc.Driver";
+        String MYSQL_URL="jdbc:mysql://192.168.133.142:3306/mysql";
+        String MYSQL_NAME="zf";
+        String MYSQL_PASSWORD="qwer1234";
         int COUNT=100 * 1000;
+        String INSERTSQL="insert into lab_order(order_no,user_id,goods_id,order_status) values(?,?,?,1)";
+
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://" +
-                    "192.168.133.142:3306/mysql", "zf", "qwer1234");
+            Class.forName(MYSQL_DRIVER);
+            Connection con = DriverManager.getConnection(MYSQL_URL, MYSQL_NAME, MYSQL_PASSWORD);
             con.setAutoCommit(false);
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss:SS");
-            TimeZone t = sdf.getTimeZone();
-            t.setRawOffset(0);
-            sdf.setTimeZone(t);
             Long startTime = System.currentTimeMillis();
             PreparedStatement pst = (PreparedStatement) con.prepareStatement(INSERTSQL);
             String orderNo=null;
@@ -52,12 +47,10 @@ public class LabCompositeIndex {
                 pst.setInt(3,goodsIdRandom);
                 pst.addBatch();
             }
-            // 执行批量更新
             pst.executeBatch();
-            // 语句执行完毕，提交本事务
             con.commit();
             Long endTime = System.currentTimeMillis();
-            System.out.println("用时：" + sdf.format(new Date(endTime - startTime)));
+            System.out.println("用时：" + (endTime - startTime));
             pst.close();
             con.close();
         } catch (Exception e) {

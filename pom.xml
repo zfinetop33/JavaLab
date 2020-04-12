@@ -10,6 +10,11 @@
 
     <modules>
         <module>ZF-mysql</module>
+        <module>ZF-dubbo-server</module>
+        <module>ZF-dubbo-client</module>
+        <module>ZF-cloud-client</module>
+        <module>ZF-cloud-server</module>
+        <module>ZF-java</module>
     </modules>
 
     <parent>

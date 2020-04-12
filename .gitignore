@@ -23,3 +23,9 @@
 hs_err_pid*
 /.idea/
 /ZF-mysql/ZF-mysql.iml
+/ZF-mysql/target/classes/META-INF/ZF-mysql.kotlin_module
+/ZF-java/ZF-java.iml
+/ZF-dubbo-server/ZF-dubbo-server.iml
+/ZF-dubbo-client/ZF-dubbo-client.iml
+/ZF-cloud-server/ZF-cloud-server.iml
+/ZF-cloud-client/ZF-cloud-client.iml
