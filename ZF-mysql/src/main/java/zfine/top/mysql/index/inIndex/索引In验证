@@ -1,0 +1,32 @@
+验证in是否会导致索引失效
+（1）in中类型不一致会导致索引失效
+select  user_id from  lab_order
+where user_id
+in (
+ 1011
+,1022
+,1033
+,1044
+,1055
+,1066
+,1077
+,1088
+,1099
+,1100
+,1101
+,'1102'
+);
+（2）类型一致，是走索引的
+select  user_id from  lab_order
+where user_id
+in (
+ '1011'
+,'1022'
+);
+或者
+select  user_id from  lab_order
+where user_id
+in (
+ 1011
+,1022
+);
